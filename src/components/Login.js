@@ -10,6 +10,7 @@ const Login = () => {
 
     const signIn = (e) => {
         e.preventDefault()
+        console.log("trying...")
         axios.post('https://shinto-backend.vercel.app/signin', {...state})
             .then(res => console.log(res))
             .catch(err => console.log("error: ", err))
