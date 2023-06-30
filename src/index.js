@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import App from './App';
 import About from './components/About';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -13,7 +14,8 @@ import Calendar from './components/Caldendar';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <App />
+    {/* <BrowserRouter>
     <NavigationBar />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -22,7 +24,7 @@ root.render(
         <Route path='/attendance' element={<Attendance />} />
         <Route path='/calendar' element={<Calendar />} />
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter> */}
   </React.StrictMode>
 );
 

@@ -1,7 +1,9 @@
 import { useState } from "react"
 import axios from "axios"
 
-const Login = () => {
+const Login = (props) => {
+
+    const { setToken, setUser } = props
 
     const [state, setState] = useState({
         email: "",
@@ -12,7 +14,10 @@ const Login = () => {
         e.preventDefault()
         console.log("trying...")
         axios.post('https://shinto-backend.vercel.app/signin', {...state})
-            .then(res => console.log(res))
+            .then(res => {
+                setToken(res.data.token)
+                setUser(res.data.user)
+            })
             .catch(err => console.log("error: ", err))
     }
 
