@@ -1,9 +1,11 @@
 import { useState } from "react"
 import axios from "axios"
+import CreateEvent from "./CreateEvent"
 
 
-const Calendar = () => {
+const Calendar = (props) => {
 
+    const {userId} = props
     const [events, setEvents] = useState([])
     
     const getEvents = () => {
@@ -23,6 +25,7 @@ const Calendar = () => {
                 )
             })}
         </ul>
+        <CreateEvent userId={userId}/>
         </>
     )
 }
