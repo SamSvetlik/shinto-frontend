@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 
-const SignUp = () => {
+const SignUp = (props) => {
+    const {setUser} = props
     const [state, setState] = useState({
         name: "", 
         email: "",
@@ -22,6 +24,8 @@ const SignUp = () => {
           };
         });
     };
+
+    const navigate = useNavigate()
     
     const createUser = (e) => {
         e.preventDefault()
@@ -29,7 +33,11 @@ const SignUp = () => {
         let newUser = {...state}
         newUser.birthday = new Date().toISOString().slice(0, 10)
         axios.post('https://shinto-backend.vercel.app/signup', {...newUser})
-            .then(res => console.log("created user: ", res))
+            .then(res => {
+                console.log("res:  ", res)
+                setUser(res.data)
+                navigate('/account')
+            })
             .catch(err => console.log("error: ", err))
     }
 
