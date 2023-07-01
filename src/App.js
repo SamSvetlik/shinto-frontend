@@ -17,11 +17,11 @@ const App = () => {
     return (
         <>
         <BrowserRouter>
-            <NavigationBar />
+            <NavigationBar user={user}/>
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/about' element={<About />} />
-                <Route path='/login' element={<Login setToken={setToken} setUser={setUser}/>} />
+                <Route path='/login' element={<Login setToken={setToken} user={user} setUser={setUser}/>} />
                 <Route path='/attendance' element={<Attendance />} />
                 <Route path='/calendar' element={<Calendar />} />
                 <Route path="/account" element={<AccountInfo user={user}/>} />
