@@ -13,7 +13,7 @@ import SignUp from "./components/SignUp";
 const App = () => {
     const [token, setToken] = useState("");
     const [user, setUser] = useState({})
-    useEffect(()=> console.log(user), [user])
+    useEffect(()=> console.log(token), [token])
     return (
         <>
         <BrowserRouter>
@@ -22,8 +22,8 @@ const App = () => {
                 <Route path='/' element={<Home />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/login' element={<Login setToken={setToken} user={user} setUser={setUser}/>} />
-                <Route path='/attendance' element={<Attendance />} />
-                <Route path='/calendar' element={<Calendar userId={user.id}/>} />
+                <Route path='/attendance' element={<Attendance token={token}/>} />
+                <Route path='/calendar' element={<Calendar userId={user.id} token={token}/>} />
                 <Route path="/account" element={<AccountInfo user={user}/>} />
                 <Route path="/signup" element={<SignUp setUser={setUser} />} />
             </Routes>
