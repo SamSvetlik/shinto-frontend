@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import cookie from "cookie"
 import NavigationBar from "./components/NavigationBar";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -13,7 +13,8 @@ import SignUp from "./components/SignUp";
 const App = () => {
     const [token, setToken] = useState("");
     const [user, setUser] = useState({})
-    useEffect(()=> console.log(token), [token])
+    const cookies = cookie.parse(document.cookie)
+    useEffect(()=> console.log(token, "cookie: ", cookies["shintoken"]), [token])
     return (
         <>
         <BrowserRouter>

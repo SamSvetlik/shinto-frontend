@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router"
+import cookie from "cookie"
 
 const Login = (props) => {
 
@@ -19,6 +20,7 @@ const Login = (props) => {
         axios.post('https://shinto-backend.vercel.app/signin', {...state})
             .then(res => {
                 setToken(res.data.token)
+                document.cookie = cookie.serialize("shintoken", res.data.token, {maxAge: 600})
                 setUser(res.data.user)
                 navigate('/')
             })

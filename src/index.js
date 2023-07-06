@@ -2,14 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import About from './components/About';
-import Home from './components/Home';
-import Login from './components/Login';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import NavigationBar from './components/NavigationBar';
-import Attendance from './components/Attendance';
-import Calendar from './components/Caldendar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

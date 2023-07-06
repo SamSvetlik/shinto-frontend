@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import axios, { all } from "axios"
+import axios from "axios"
 
 const Attendance = (props) => {
     const { token } = props
