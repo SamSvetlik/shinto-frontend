@@ -22,8 +22,8 @@ const Login = (props) => {
                 setToken(res.data.token)
                 document.cookie = cookie.serialize("shintoken", res.data.token, {maxAge: 600})
                 setUser(res.data.user)
-                document.cookie = cookie.serialize("shintoUser", JSON.stringify(res.data.user), {maxAge: 600})
-                // Currently these cookies persist for just 10 minutes
+                document.cookie = cookie.serialize("shintoUser", JSON.stringify(res.data.user), {maxAge: 60 * 60 * 24})
+                // Cookie persists for 24 hours, after which user needs to log in again
                 navigate('/')
             })
             .catch(err => console.log("error: ", err))

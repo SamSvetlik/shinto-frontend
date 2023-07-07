@@ -9,6 +9,7 @@ import Attendance from "./components/Attendance";
 import Calendar from "./components/Caldendar";
 import AccountInfo from "./components/AccountInfo";
 import SignUp from "./components/SignUp";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
     const [token, setToken] = useState("");
@@ -29,10 +30,12 @@ const App = () => {
                 <Route path='/' element={<Home />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/login' element={<Login setToken={setToken} user={user} setUser={setUser}/>} />
-                <Route path='/attendance' element={<Attendance token={token}/>} />
                 <Route path='/calendar' element={<Calendar userId={user.id} token={token}/>} />
-                <Route path="/account" element={<AccountInfo user={user}/>} />
                 <Route path="/signup" element={<SignUp setUser={setUser} />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/account" element={<AccountInfo user={user}/>} />
+                    <Route path='/attendance' element={<Attendance token={token}/>} />
+                </Route>
             </Routes>
         </BrowserRouter>        
         </>
