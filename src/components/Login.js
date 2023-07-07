@@ -22,6 +22,8 @@ const Login = (props) => {
                 setToken(res.data.token)
                 document.cookie = cookie.serialize("shintoken", res.data.token, {maxAge: 600})
                 setUser(res.data.user)
+                document.cookie = cookie.serialize("shintoUser", JSON.stringify(res.data.user), {maxAge: 600})
+                // Currently these cookies persist for just 10 minutes
                 navigate('/')
             })
             .catch(err => console.log("error: ", err))
@@ -30,8 +32,11 @@ const Login = (props) => {
     const signOut = (e) => {
         e.preventDefault();
         console.log("Signing out")
-        setUser({})
+        document.cookie = cookie.serialize("shintoken", null, {maxAge: 0})
         setToken("")
+        document.cookie = cookie.serialize("shintoUser", null, {maxAge: 0})
+        setUser({})
+
         navigate("/")
     }
 

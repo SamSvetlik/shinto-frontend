@@ -14,7 +14,13 @@ const App = () => {
     const [token, setToken] = useState("");
     const [user, setUser] = useState({})
     const cookies = cookie.parse(document.cookie)
-    useEffect(()=> console.log(token, "cookie: ", cookies["shintoken"]), [token])
+    useEffect(()=> {
+         if (cookies["shintoken"] && cookies["shintoUser"] ) {
+        setToken(cookies["shintoken"])
+        setUser(JSON.parse(cookies["shintoUser"]))
+        console.log(JSON.parse(cookies["shintoUser"]))
+        }
+    }, [])
     return (
         <>
         <BrowserRouter>
