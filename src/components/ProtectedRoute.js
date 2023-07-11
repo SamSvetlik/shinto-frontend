@@ -1,15 +1,23 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import cookie from 'cookie'
 
 const ProtectedRoute = (props) => {
 
-  const checkAuth = () => {
-    const cookies = cookie.parse(document.cookie);
-    return cookies["shintoUser"] && cookies["shintoken"] ? true : false;
-  };
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const cookies = cookie.parse(document.cookie)
+    
+    useEffect(()=> {
+        console.log("checks shintoken: ", cookies["shintoken"])
+        if (cookies["shintoken"] && cookies["shintoUser"]) {
+            setIsLoggedIn(true)
+        } else {
+            setIsLoggedIn(false)
+          }
+    })
 
   return (
-    checkAuth() 
+    isLoggedIn 
         ? <Outlet /> 
         : <Navigate to="/login" />
   );

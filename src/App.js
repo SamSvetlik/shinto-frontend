@@ -19,7 +19,6 @@ const App = () => {
          if (cookies["shintoken"] && cookies["shintoUser"] ) {
         setToken(cookies["shintoken"])
         setUser(JSON.parse(cookies["shintoUser"]))
-        console.log(JSON.parse(cookies["shintoUser"]))
         }
     }, [])
     return (
