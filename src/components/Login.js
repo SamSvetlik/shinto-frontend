@@ -16,7 +16,6 @@ const Login = (props) => {
 
     const signIn = (e) => {
         e.preventDefault()
-        console.log("trying...")
         axios.post('https://shinto-backend.vercel.app/signin', {...state})
             .then(res => {
                 setToken(res.data.token)

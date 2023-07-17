@@ -6,15 +6,18 @@ const ProtectedRoute = (props) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const cookies = cookie.parse(document.cookie)
+    const location = useLocation()
     
     useEffect(()=> {
         console.log("checks shintoken: ", cookies["shintoken"])
         if (cookies["shintoken"] && cookies["shintoUser"]) {
             setIsLoggedIn(true)
+            console.log("true")
         } else {
             setIsLoggedIn(false)
+            console.log("false")
           }
-    })
+    }, [location])
 
   return (
     isLoggedIn 
