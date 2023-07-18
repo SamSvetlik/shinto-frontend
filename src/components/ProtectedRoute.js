@@ -4,7 +4,7 @@ import cookie from 'cookie'
 
 const ProtectedRoute = (props) => {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(true)
     const cookies = cookie.parse(document.cookie)
     const location = useLocation()
     

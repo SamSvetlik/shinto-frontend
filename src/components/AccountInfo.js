@@ -15,12 +15,43 @@ const AccountInfo = (props) => {
         };
         });
     };
+    
+    function msToDays(ms) {
+        const conversion = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+        const days = Math.ceil(ms / conversion); // Calculate the number of days and round up
+        
+        return days;
+      }
+
+    const ageCalc = (dateString) => {
+        const today = new Date()
+        const birthdate = new Date(dateString)
+        let years = today.getFullYear() - birthdate.getFullYear()
+        if (today.getMonth() > birthdate.getMonth()) {
+            years --
+        } else if (today.getMonth() === birthdate.getMonth() && today.getDate() > birthdate.getDate()) {
+            years --
+        }
+        return years
+    }
+    
+    const timeRemaining = () => {
+        const today = new Date()
+        const primedate = new Date(user.renewalDate)
+        console.log("primedate = " + primedate)
+        const daysLeft = 30 - msToDays(today - primedate)
+        if (daysLeft < 0) {
+            return `Expired! Last renewal was ${user.renewalDate.slice(0, 10)}`
+        }
+        return daysLeft
+    }
     // todo:
     // set flag for edit on/off
     // edit on = all fields become inputs,
     // handleTextChange to update info in updatedUser
     // back button to discard
     // confirm button to post to backend/users
+    console.log(user)
 
     return (
         <div>
@@ -38,15 +69,15 @@ const AccountInfo = (props) => {
             <section>
                 <div>
                     <h2>Membership</h2>
-                    <p>Days remaining: function to calculate</p>
-                    <p>Member since: {user.memberSince}</p>
+                    <p>Days remaining: {timeRemaining()}</p>
+                    <p>Member since: {user.memberSince.slice(0, 10)}</p>
                 </div>
                 <div>
                     <h2>General Information</h2>
                     <p>Emergency Contact: {user.emergencyContact}</p>
                     <p>Emergency Number: {user.emergencyNumber}</p>
-                    <p>Age: Function to calculate</p>
-                    <p>Birthday: {user.birthday}</p>
+                    <p>Age: {ageCalc(user.birthday)}</p>
+                    <p>Birthday: {user.birthday.slice(0, 10)}</p>
                 </div>
             </section>
             <section>

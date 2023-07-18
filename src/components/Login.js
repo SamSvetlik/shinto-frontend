@@ -19,9 +19,9 @@ const Login = (props) => {
         axios.post('https://shinto-backend.vercel.app/signin', {...state})
             .then(res => {
                 setToken(res.data.token)
-                document.cookie = cookie.serialize("shintoken", res.data.token, {maxAge: 600})
+                document.cookie = cookie.serialize("shintoken", res.data.token, {maxAge: 100})
                 setUser(res.data.user)
-                document.cookie = cookie.serialize("shintoUser", JSON.stringify(res.data.user), {maxAge: 60 * 60 * 24})
+                document.cookie = cookie.serialize("shintoUser", JSON.stringify(res.data.user), {maxAge: 100})
                 // Cookie persists for 24 hours, after which user needs to log in again
                 navigate('/')
             })
