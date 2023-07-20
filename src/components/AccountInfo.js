@@ -46,21 +46,36 @@ const AccountInfo = (props) => {
         }
         return daysLeft
     }
-    // todo:
 
-    // edit on = membership becomes date picker
+    // bug: refresh in protected component gives a runtime error
+    // solution: create global boolean variable for first load, 
+    // conditionally render null until the variable reads true
+
+    // todo:
     // handleTextChange to update info in updatedUser
     // back button to discard
     // confirm button to post to backend/users
     console.log(user)
-    const beginEdit = () => {
+
+    const toggleEdit = () => {
         setIsEditing(!isEditing)
         console.log("isEditing: ", isEditing)
     }
 
+    const submitEdit = ()=> {
+        console.log("confirm changes")
+    }
+
+    const newDateString = () => {
+        // console.log(new Date().toISOString().slice(0, 10))
+        console.log("New Date String!")
+    }
+
+
     return (
+    
         <div>
-            <form>
+            <form onSubmit={(e) => e.preventDefault()}>
                 <section>
                     <div className="profilePicContainer">
                     <img src={user.profilePic} />
@@ -75,7 +90,10 @@ const AccountInfo = (props) => {
                 <section>
                     <div>
                         <h2>Membership</h2>
-                        <p>Days remaining: {timeRemaining()}</p>
+                        {isEditing
+                        ? <button onClick={newDateString}>Reset subscription!</button>
+                        : <p>Days remaining: {timeRemaining()}</p>
+                        }
                         <p>Member since: {user.memberSince.slice(0, 10)}</p>
                     </div>
                     <div>
@@ -112,7 +130,8 @@ const AccountInfo = (props) => {
                     }
                 </section>
             </form>
-            <button onClick={beginEdit}>Edit info</button>
+            <button onClick={toggleEdit}>{isEditing ? "Discard edits" : "Edit info"}</button>
+            {isEditing ? <button onClick={newDateString}>Confirm changes</button> : null}
         </div>
     )
 }
