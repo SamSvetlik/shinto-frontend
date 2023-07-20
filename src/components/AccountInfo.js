@@ -5,6 +5,7 @@ const AccountInfo = (props) => {
     const {user} = props
 
     const [updatedUser, setUpdate] = useState({user})
+    const [isEditing, setIsEditing] = useState(false)
     
     const handleTextChange = (e) => {
         const { name, value } = e.target;
@@ -46,44 +47,72 @@ const AccountInfo = (props) => {
         return daysLeft
     }
     // todo:
-    // set flag for edit on/off
-    // edit on = all fields become inputs,
+
+    // edit on = membership becomes date picker
     // handleTextChange to update info in updatedUser
     // back button to discard
     // confirm button to post to backend/users
     console.log(user)
+    const beginEdit = () => {
+        setIsEditing(!isEditing)
+        console.log("isEditing: ", isEditing)
+    }
 
     return (
         <div>
-            <section>
-                <div className="profilePicContainer">
-                   <img src={user.profilePic} />
-                </div>
-                <div>
-                    <h1>{user.name}</h1>
-                    <h2>{user.beltRank}</h2>
-                    <h3>{user.isAdmin ? "Instructor" : "Student"}</h3>
-                    <p>{user.beltProgress}</p>
-                </div>
-            </section>
-            <section>
-                <div>
-                    <h2>Membership</h2>
-                    <p>Days remaining: {timeRemaining()}</p>
-                    <p>Member since: {user.memberSince.slice(0, 10)}</p>
-                </div>
-                <div>
-                    <h2>General Information</h2>
-                    <p>Emergency Contact: {user.emergencyContact}</p>
-                    <p>Emergency Number: {user.emergencyNumber}</p>
-                    <p>Age: {ageCalc(user.birthday)}</p>
-                    <p>Birthday: {user.birthday.slice(0, 10)}</p>
-                </div>
-            </section>
-            <section>
-                <h2>Notes</h2>
-                <p>{user.notes}</p>
-            </section>
+            <form>
+                <section>
+                    <div className="profilePicContainer">
+                    <img src={user.profilePic} />
+                    </div>
+                    <div>
+                        <h1>{user.name}</h1>
+                        <h2>{user.beltRank}</h2>
+                        <h3>{user.isAdmin ? "Instructor" : "Student"}</h3>
+                        <p>{user.beltProgress}</p>
+                    </div>
+                </section>
+                <section>
+                    <div>
+                        <h2>Membership</h2>
+                        <p>Days remaining: {timeRemaining()}</p>
+                        <p>Member since: {user.memberSince.slice(0, 10)}</p>
+                    </div>
+                    <div>
+                        <h2>General Information</h2>
+                        {isEditing
+                        ?   
+                        <>
+                            <label>Emergency Contact: </label>
+                            <input value={user.emergencyContact}></input>
+                        </>  
+                        :
+                        <p>Emergency Contact: {user.emergencyContact}</p>
+                        }
+                        {isEditing
+                        ?
+                        <>
+                            <label>Emergency Contact: </label>
+                            <input value={user.emergencyNumber}></input>
+                        </>
+                        :
+                        <p>Emergency Number: {user.emergencyNumber}</p>
+                        }
+                        <p>Age: {ageCalc(user.birthday)}</p>
+                        <p>Birthday: {user.birthday.slice(0, 10)}</p>
+                    </div>
+                </section>
+                <section>
+                    <h2>Notes</h2>
+                    {isEditing
+                    ?
+                    <textarea>{user.notes}</textarea>
+                    :
+                    <p>{user.notes}</p>
+                    }
+                </section>
+            </form>
+            <button onClick={beginEdit}>Edit info</button>
         </div>
     )
 }
