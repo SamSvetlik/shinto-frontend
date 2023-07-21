@@ -1,15 +1,15 @@
 import { useState } from "react";
+import axios from "axios";
 
 
-const AccountInfo = (props) => {
-    const {user} = props
+const AccountInfo = ({user, setUser, token}) => {
 
-    const [updatedUser, setUpdate] = useState({user})
+    const [updatedUser, setUpdatedUser] = useState(user)
     const [isEditing, setIsEditing] = useState(false)
     
     const handleTextChange = (e) => {
         const { name, value } = e.target;
-        setUpdate((prevState) => {
+        setUpdatedUser((prevState) => {
         return {
             ...prevState,
             [name]: value,
@@ -51,26 +51,48 @@ const AccountInfo = (props) => {
     // solution: create global boolean variable for first load, 
     // conditionally render null until the variable reads true
 
-    // todo:
-    // handleTextChange to update info in updatedUser
-    // back button to discard
-    // confirm button to post to backend/users
     console.log(user)
 
     const toggleEdit = () => {
         setIsEditing(!isEditing)
-        console.log("isEditing: ", isEditing)
     }
 
-    const submitEdit = ()=> {
-        console.log("confirm changes")
+    const discardChanges = () => {
+        toggleEdit()
+        setUpdatedUser(user)
+    }
+
+    const submitEdit = (e)=> {
+        e.preventDefault()
+        axios.put(`https://shinto-backend.vercel.app/users/${user.id}`, 
+            {...updatedUser}, 
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            })
+            .then(res => {
+                console.log(res)
+                setUser(updatedUser)
+                alert("Info updated!")
+                toggleEdit()
+                
+            })
+            .catch(err => console.log("error: ", err))
     }
 
     const newDateString = () => {
-        // console.log(new Date().toISOString().slice(0, 10))
-        console.log("New Date String!")
+        return new Date().toISOString().slice(0, 10)
     }
 
+    const handleDateChange = () => {
+        setUpdatedUser((prevState) => {
+            return {
+                ...prevState,
+                renewalDate: newDateString(),
+            };
+            });
+    }
 
     return (
     
@@ -78,20 +100,25 @@ const AccountInfo = (props) => {
             <form onSubmit={(e) => e.preventDefault()}>
                 <section>
                     <div className="profilePicContainer">
-                    <img src={user.profilePic} />
+                    <img src={user.profilePic} /> 
+                    {/* todo: conditional rendering to upload new pic
+                    ... once I figure out image hosting */}
                     </div>
                     <div>
                         <h1>{user.name}</h1>
                         <h2>{user.beltRank}</h2>
+                        {/* todo: dropdown menu to change belt */}
                         <h3>{user.isAdmin ? "Instructor" : "Student"}</h3>
+                        {/* todo: promotion to admin */}
                         <p>{user.beltProgress}</p>
+                        {/* todo: progress bar, conditional [-/+] buttons */}
                     </div>
                 </section>
                 <section>
                     <div>
                         <h2>Membership</h2>
                         {isEditing
-                        ? <button onClick={newDateString}>Reset subscription!</button>
+                        ? <button onClick={handleDateChange}>Reset subscription!</button>
                         : <p>Days remaining: {timeRemaining()}</p>
                         }
                         <p>Member since: {user.memberSince.slice(0, 10)}</p>
@@ -102,7 +129,7 @@ const AccountInfo = (props) => {
                         ?   
                         <>
                             <label>Emergency Contact: </label>
-                            <input value={user.emergencyContact}></input>
+                            <input name="emergencyContact" value={updatedUser.emergencyContact} onChange={handleTextChange}></input>
                         </>  
                         :
                         <p>Emergency Contact: {user.emergencyContact}</p>
@@ -110,8 +137,8 @@ const AccountInfo = (props) => {
                         {isEditing
                         ?
                         <>
-                            <label>Emergency Contact: </label>
-                            <input value={user.emergencyNumber}></input>
+                            <label>Emergency Number: </label>
+                            <input name="emergencyNumber" value={updatedUser.emergencyNumber} onChange={handleTextChange}></input>
                         </>
                         :
                         <p>Emergency Number: {user.emergencyNumber}</p>
@@ -124,14 +151,14 @@ const AccountInfo = (props) => {
                     <h2>Notes</h2>
                     {isEditing
                     ?
-                    <textarea>{user.notes}</textarea>
+                    <textarea maxLength={255} name="notes" onChange={handleTextChange}>{updatedUser.notes}</textarea>
                     :
                     <p>{user.notes}</p>
                     }
                 </section>
             </form>
-            <button onClick={toggleEdit}>{isEditing ? "Discard edits" : "Edit info"}</button>
-            {isEditing ? <button onClick={newDateString}>Confirm changes</button> : null}
+            <button onClick={isEditing ? discardChanges : toggleEdit}>{isEditing ? "Discard edits" : "Edit info"}</button>
+            {isEditing ? <button onClick={submitEdit}>Confirm changes</button> : null}
         </div>
     )
 }

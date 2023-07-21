@@ -32,7 +32,7 @@ const App = () => {
                 <Route path='/calendar' element={<Calendar userId={user.id} token={token}/>} />
                 <Route path="/signup" element={<SignUp setUser={setUser} />} />
                 <Route element={<ProtectedRoute />}>
-                    <Route path="/account" element={<AccountInfo user={user}/>} />
+                    <Route path="/account" element={<AccountInfo user={user} setUser={setUser} token={token}/>} />
                     <Route path='/attendance' element={<Attendance token={token}/>} />
                 </Route>
             </Routes>
