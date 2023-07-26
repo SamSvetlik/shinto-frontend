@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-
+import BeltDropdown from "./BeltDropdown";
 
 const AccountInfo = ({user, setUser, token}) => {
 
@@ -106,8 +106,10 @@ const AccountInfo = ({user, setUser, token}) => {
                     </div>
                     <div>
                         <h1>{user.name}</h1>
-                        <h2>{user.beltRank}</h2>
-                        {/* todo: dropdown menu to change belt */}
+                        {isEditing
+                        ? <BeltDropdown setterFn={setUpdatedUser} selected={user.beltRank}/>
+                        : <h2>{user.beltRank}</h2>
+                        }
                         <h3>{user.isAdmin ? "Instructor" : "Student"}</h3>
                         {/* todo: promotion to admin */}
                         <p>{user.beltProgress}</p>
